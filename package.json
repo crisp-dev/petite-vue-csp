@@ -1,7 +1,7 @@
 {
-  "name": "petite-vue",
+  "name": "petite-vue-csp",
   "version": "0.4.1",
-  "description": "5kb subset of Vue optimized for progressive enhancement",
+  "description": "A petite-vue version that works with unsafe-eval",
   "files": [
     "dist"
   ],
@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vuejs/petite-vue.git"
+    "url": "git+https://github.com/baptistejamin/petite-vue-csp.git"
   },
   "keywords": [
     "vue"
@@ -34,10 +34,11 @@
   "bugs": {
     "url": "https://github.com/vuejs/petite-vue/discussions"
   },
-  "homepage": "https://github.com/vuejs/petite-vue#readme",
+  "homepage": "https://github.com/baptistejamin/petite-vue-csp#readme",
   "devDependencies": {
     "@vue/reactivity": "^3.2.27",
     "@vue/shared": "^3.2.27",
+    "safe-expression": "1.0.0",
     "chalk": "^4.1.1",
     "conventional-changelog-cli": "^2.1.1",
     "enquirer": "^2.3.6",

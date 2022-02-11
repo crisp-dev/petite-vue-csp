@@ -1,10 +1,11 @@
-# petite-vue
+# petite-vue-csp
 
-`petite-vue` is an alternative distribution of [Vue](https://vuejs.org) optimized for [progressive enhancement](https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement). It provides the same template syntax and reactivity mental model as standard Vue. However, it is specifically optimized for "sprinkling" a small amount of interactions on an existing HTML page rendered by a server framework. See more details on [how it differs from standard Vue](#comparison-with-standard-vue).
+`petite-vue-csp` is a fork version of `petite-vue`, itself an alternative distribution of [Vue](https://vuejs.org) optimized for [progressive enhancement](https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement). It provides the same template syntax and reactivity mental model as standard Vue. However, it is specifically optimized for "sprinkling" a small amount of interactions on an existing HTML page rendered by a server framework. See more details on [how it differs from standard Vue](#comparison-with-standard-vue).
 
 - Only ~6kb
 - Vue-compatible template syntax
 - DOM-based, mutates in place
+- CSP Safe
 - Driven by `@vue/reactivity`
 
 ## Status
@@ -25,7 +26,7 @@
 <!-- anywhere on the page -->
 <div v-scope="{ count: 0 }">
   {{ count }}
-  <button @click="count++">inc</button>
+  <button @click="count + 1">inc</button>
 </div>
 ```
 

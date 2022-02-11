@@ -6,7 +6,11 @@ export const model: Directive<
   HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
 > = ({ el, exp, get, effect, modifiers }) => {
   const type = el.type
-  const assign = get(`(val) => { ${exp} = val }`)
+  
+  const assign = (val: any) => {
+    get(`${exp} = '${val}'`)
+  }
+  
   const { trim, number = type === 'number' } = modifiers || {}
 
   if (el.tagName === 'SELECT') {

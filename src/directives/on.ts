@@ -37,9 +37,13 @@ export const on: Directive = ({ el, get, exp, arg, modifiers }) => {
     return
   }
 
-  let handler = simplePathRE.test(exp)
-    ? get(`(e => ${exp}(e))`)
-    : get(`($event => { ${exp} })`)
+  var handler = (e: any) => {
+    if (simplePathRE.test(exp)) {
+      get(`${exp}`)(e);
+    } else {
+      get(`${exp}`);
+    }
+  };
 
   // special lifecycle events
   if (import.meta.env.DEV && (arg === 'mounted' || arg === 'unmounted')) {
@@ -49,9 +53,11 @@ export const on: Directive = ({ el, get, exp, arg, modifiers }) => {
     )
   }
   if (arg === 'vue:mounted') {
+    // @ts-ignore
     nextTick(handler)
     return
   } else if (arg === 'vue:unmounted') {
+    // @ts-ignore
     return () => handler()
   }
 
