@@ -1,6 +1,6 @@
 {
   "name": "petite-vue-csp",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "A petite-vue version that works with unsafe-eval",
   "files": [
     "dist"
@@ -38,7 +38,7 @@
   "devDependencies": {
     "@vue/reactivity": "^3.2.27",
     "@vue/shared": "^3.2.27",
-    "safe-expression": "1.0.0",
+    "safe-expression": "1.0.1",
     "chalk": "^4.1.1",
     "conventional-changelog-cli": "^2.1.1",
     "enquirer": "^2.3.6",
