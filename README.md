@@ -58,9 +58,9 @@ Or, use the ES module build:
 
 The short CDN URL is meant for prototyping. For production usage, use a fully resolved CDN URL to avoid resolving and redirect cost:
 
-- Global build: `https://unpkg.com/petite-vue-csp@0.4.3/dist/petite-vue-csp.iife.js`
+- Global build: `https://unpkg.com/petite-vue-csp@0.4.4/dist/petite-vue-csp.iife.js`
   - exposes `PetiteVue` global, supports auto init
-- ESM build: `https://unpkg.com/petite-vue-csp@0.4.3/dist/petite-vue-csp.es.js`
+- ESM build: `https://unpkg.com/petite-vue-csp@0.4.4/dist/petite-vue-csp.es.js`
   - Must be used with `<script type="module">`
 
 ### Root Scope
