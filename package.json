@@ -1,14 +1,14 @@
 {
   "name": "petite-vue-csp",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "A petite-vue version that works with unsafe-eval",
   "files": [
     "dist"
   ],
-  "main": "dist/petite-vue.umd.js",
-  "unpkg": "dist/petite-vue.iife.js",
-  "jsdelivr": "dist/petite-vue.iife.js",
-  "module": "./dist/petite-vue.es.js",
+  "main": "dist/petite-vue-csp.umd.js",
+  "unpkg": "dist/petite-vue-csp.iife.js",
+  "jsdelivr": "dist/petite-vue-csp.iife.js",
+  "module": "./dist/petite-vue-csp.es.js",
   "exports": {
     ".": {
       "import": "./dist/petite-vue.es.js",
