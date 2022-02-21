@@ -29,7 +29,7 @@ const modifierGuards: Record<
     systemModifiers.some((m) => (e as any)[`${m}Key`] && !modifiers[m])
 }
 
-export const on: Directive = ({ el, get, exp, arg, modifiers }) => {
+export const on: Directive = ({ el, get, exp, arg, ctx, modifiers }) => {
   if (!arg) {
     if (import.meta.env.DEV) {
       console.error(`v-on="obj" syntax is not supported in petite-vue.`)
@@ -41,7 +41,9 @@ export const on: Directive = ({ el, get, exp, arg, modifiers }) => {
     if (simplePathRE.test(exp)) {
       get(`${exp}`)(e);
     } else {
+      ctx.scope.$event = e;
       get(`${exp}`);
+      delete ctx.scope.$event;
     }
   };
 
