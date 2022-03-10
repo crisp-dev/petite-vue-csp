@@ -6,7 +6,7 @@ export default defineConfig({
     minify: true
   },
   build: {
-    target: 'esnext',
+    target: 'es2015',
     minify: 'terser',
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
