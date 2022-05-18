@@ -123,22 +123,22 @@ const processDirective = (
   let modifiers: Record<string, true> | undefined
 
   // modifiers
-  raw = raw.replace(modifierRE, (_, m) => {
+  let directive = raw.replace(modifierRE, (_, m) => {
     ;(modifiers || (modifiers = {}))[m] = true
     return ''
   })
 
-  if (raw[0] === ':') {
+  if (directive[0] === ':') {
     dir = bind
-    arg = raw.slice(1)
-  } else if (raw[0] === '@') {
+    arg = directive.slice(1)
+  } else if (directive[0] === '@') {
     dir = on
-    arg = raw.slice(1)
+    arg = directive.slice(1)
   } else {
-    const argIndex = raw.indexOf(':')
-    const dirName = argIndex > 0 ? raw.slice(2, argIndex) : raw.slice(2)
+    const argIndex = directive.indexOf(':')
+    const dirName = argIndex > 0 ? directive.slice(2, argIndex) : directive.slice(2)
     dir = builtInDirectives[dirName] || ctx.dirs[dirName]
-    arg = argIndex > 0 ? raw.slice(argIndex + 1) : undefined
+    arg = argIndex > 0 ? directive.slice(argIndex + 1) : undefined
   }
   if (dir) {
     if (dir === bind && arg === 'ref') dir = ref
