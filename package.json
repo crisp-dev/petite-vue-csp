@@ -1,6 +1,6 @@
 {
   "name": "petite-vue-csp",
-  "version": "0.4.9",
+  "version": "0.4.10",
   "description": "A petite-vue version that works with unsafe-eval",
   "files": [
     "dist"
@@ -11,8 +11,8 @@
   "module": "./dist/petite-vue-csp.es.js",
   "exports": {
     ".": {
-      "import": "./dist/petite-vue.es.js",
-      "require": "./dist/petite-vue.umd.js"
+      "import": "./dist/petite-vue-csp.es.js",
+      "require": "./dist/petite-vue-csp.umd.js"
     }
   },
   "types": "./dist/types/index.d.ts",
