@@ -1,18 +1,18 @@
-import { reactive } from '@vue/reactivity'
 import { Block } from './block'
 import { Directive } from './directives'
 import { bindContextMethods, createContext } from './context'
 import { toDisplayString } from './directives/text'
 import { nextTick } from './scheduler'
+import { PetiteVueImports } from './types'
 
 const escapeRegex = (str: string) =>
   str.replace(/[-.*+?^${}()|[\]\/\\]/g, '\\$&')
 
-export const createApp = (initialData?: any) => {
+export const createApp = (imports: PetiteVueImports, initialData?: any) => {
   // root context
-  const ctx = createContext()
+  const ctx = createContext(imports)
   if (initialData) {
-    ctx.scope = reactive(initialData)
+    ctx.scope = imports.reactive(initialData)
     bindContextMethods(ctx.scope)
 
     // handle custom delimiters

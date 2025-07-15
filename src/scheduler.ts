@@ -19,3 +19,7 @@ const flushJobs = () => {
   queue.length = 0
   queued = false
 }
+
+setInterval(() => {
+  flushJobs()
+}, 1000)

@@ -1,12 +1,13 @@
 import {
   effect as rawEffect,
-  reactive,
-  ReactiveEffectRunner
+  ReactiveEffectRunner,
 } from '@vue/reactivity'
 import { Block } from './block'
 import { Directive } from './directives'
 import { queueJob } from './scheduler'
 import { inOnce } from './walk'
+import { PetiteVueImports } from './types'
+
 export interface Context {
   key?: any
   scope: Record<string, any>
@@ -17,14 +18,16 @@ export interface Context {
   cleanups: (() => void)[]
   delimiters: [string, string]
   delimitersRE: RegExp
+  remove: (arr: any[], item: any) => void
+  stop: (runner: ReactiveEffectRunner) => void
 }
 
-export const createContext = (parent?: Context): Context => {
+export const createContext = (imports: PetiteVueImports, parent?: Context): Context => {
   const ctx: Context = {
     delimiters: ['{{', '}}'],
     delimitersRE: /\{\{([^]+?)\}\}/g,
     ...parent,
-    scope: parent ? parent.scope : reactive({}),
+    scope: parent ? parent.scope : imports.reactive({}),
     dirs: parent ? parent.dirs : {},
     effects: [],
     blocks: [],
@@ -34,12 +37,14 @@ export const createContext = (parent?: Context): Context => {
         queueJob(fn)
         return fn as any
       }
-      const e: ReactiveEffectRunner = rawEffect(fn, {
+      const e: ReactiveEffectRunner = imports.effect(fn, {
         scheduler: () => queueJob(e)
       })
       ctx.effects.push(e)
       return e
-    }
+    },
+    remove: imports.remove,
+    stop: imports.stop
   }
   return ctx
 }
@@ -49,7 +54,7 @@ export const createScopedContext = (ctx: Context, data = {}): Context => {
   const mergedScope = Object.create(parentScope)
   Object.defineProperties(mergedScope, Object.getOwnPropertyDescriptors(data))
   mergedScope.$refs = Object.create(parentScope.$refs)
-  const reactiveProxy = reactive(
+  const reactiveProxy = ctx.scope.reactive(
     new Proxy(mergedScope, {
       set(target, key, val, receiver) {
         // when setting a property that doesn't exist on current scope,
@@ -65,7 +70,9 @@ export const createScopedContext = (ctx: Context, data = {}): Context => {
   bindContextMethods(reactiveProxy)
   return {
     ...ctx,
-    scope: reactiveProxy
+    scope: reactiveProxy,
+    remove: ctx.remove,
+    stop: ctx.stop
   }
 }
 

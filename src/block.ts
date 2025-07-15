@@ -1,7 +1,5 @@
 import { Context, createContext } from './context'
 import { walk } from './walk'
-import { remove } from '@vue/shared'
-import { stop } from '@vue/reactivity'
 
 export class Block {
   template: Element | DocumentFragment
@@ -36,7 +34,8 @@ export class Block {
       // create child context
       this.parentCtx = parentCtx
       parentCtx.blocks.push(this)
-      this.ctx = createContext(parentCtx)
+      // Pass the imports from parent context
+      this.ctx = createContext({ reactive: parentCtx.scope.reactive, effect: parentCtx.effect, remove: parentCtx.remove, stop: parentCtx.stop }, parentCtx)
     }
 
     walk(this.template, this.ctx)
@@ -68,7 +67,7 @@ export class Block {
 
   remove() {
     if (this.parentCtx) {
-      remove(this.parentCtx.blocks, this)
+      this.parentCtx.remove(this.parentCtx.blocks, this)
     }
     if (this.start) {
       const parent = this.start.parentNode!
@@ -90,7 +89,7 @@ export class Block {
     this.ctx.blocks.forEach((child) => {
       child.teardown()
     })
-    this.ctx.effects.forEach(stop)
+    this.ctx.effects.forEach(this.ctx.stop)
     this.ctx.cleanups.forEach((fn) => fn())
   }
 }
