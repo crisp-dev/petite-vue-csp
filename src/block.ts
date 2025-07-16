@@ -35,7 +35,7 @@ export class Block {
       this.parentCtx = parentCtx
       parentCtx.blocks.push(this)
       // Pass the imports from parent context
-      this.ctx = createContext({ reactive: parentCtx.scope.reactive, effect: parentCtx.effect, remove: parentCtx.remove, stop: parentCtx.stop }, parentCtx)
+      this.ctx = createContext({ reactive: parentCtx.reactive, effect: parentCtx.effect, remove: parentCtx.remove, stop: parentCtx.stop }, parentCtx)
     }
 
     walk(this.template, this.ctx)

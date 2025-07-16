@@ -14,6 +14,7 @@ export interface Context {
     delimitersRE: RegExp;
     remove: (arr: any[], item: any) => void;
     stop: (runner: ReactiveEffectRunner) => void;
+    reactive: (obj: any) => any;
 }
 export declare const createContext: (imports: PetiteVueImports, parent?: Context | undefined) => Context;
 export declare const createScopedContext: (ctx: Context, data?: {}) => Context;

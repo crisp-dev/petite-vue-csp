@@ -20,6 +20,7 @@ export interface Context {
   delimitersRE: RegExp
   remove: (arr: any[], item: any) => void
   stop: (runner: ReactiveEffectRunner) => void
+  reactive: (obj: any) => any
 }
 
 export const createContext = (imports: PetiteVueImports, parent?: Context): Context => {
@@ -44,7 +45,8 @@ export const createContext = (imports: PetiteVueImports, parent?: Context): Cont
       return e
     },
     remove: imports.remove,
-    stop: imports.stop
+    stop: imports.stop,
+    reactive: imports.reactive
   }
   return ctx
 }
@@ -54,7 +56,8 @@ export const createScopedContext = (ctx: Context, data = {}): Context => {
   const mergedScope = Object.create(parentScope)
   Object.defineProperties(mergedScope, Object.getOwnPropertyDescriptors(data))
   mergedScope.$refs = Object.create(parentScope.$refs)
-  const reactiveProxy = ctx.scope.reactive(
+
+  const reactiveProxy = ctx.reactive(
     new Proxy(mergedScope, {
       set(target, key, val, receiver) {
         // when setting a property that doesn't exist on current scope,
@@ -72,7 +75,8 @@ export const createScopedContext = (ctx: Context, data = {}): Context => {
     ...ctx,
     scope: reactiveProxy,
     remove: ctx.remove,
-    stop: ctx.stop
+    stop: ctx.stop,
+    reactive: ctx.reactive
   }
 }
 
