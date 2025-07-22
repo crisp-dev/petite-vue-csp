@@ -1,6 +1,6 @@
 {
   "name": "petite-vue-csp",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "A petite-vue version that works with unsafe-eval",
   "files": [
     "dist"
