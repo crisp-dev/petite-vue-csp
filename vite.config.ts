@@ -8,6 +8,15 @@ export default defineConfig({
   build: {
     target: 'es2015',
     minify: 'terser',
+    terserOptions: {
+      format: {
+        comments: false
+      },
+
+      mangle: {
+        reserved: ["$", "_"]
+      }
+    },
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'PetiteVue',
