@@ -1,10 +1,12 @@
 import { builtInDirectives, Directive } from './directives'
 import { _if } from './directives/if'
 import { _for } from './directives/for'
+import { bind } from './directives/bind'
 import { on } from './directives/on'
 import { text } from './directives/text'
 import { evaluate } from './eval'
 import { checkAttr } from './utils'
+import { ref } from './directives/ref'
 import { Context, createScopedContext } from './context'
 
 const dirRE = /^(?:v-|:|@)/
@@ -48,6 +50,11 @@ export const walk = (node: Node, ctx: Context): ChildNode | null | void => {
     const hasVOnce = checkAttr(el, 'v-once') != null
     if (hasVOnce) {
       inOnce = true
+    }
+
+    // ref
+    if ((exp = checkAttr(el, 'ref'))) {
+      applyDirective(el, ref, `"${exp}"`, ctx)
     }
 
     // process children first before self attrs
@@ -121,7 +128,10 @@ const processDirective = (
     return ''
   })
 
-  if (directive[0] === '@') {
+  if (directive[0] === ':') {
+    dir = bind
+    arg = directive.slice(1)
+  } else if (directive[0] === '@') {
     dir = on
     arg = directive.slice(1)
   } else {
@@ -131,6 +141,7 @@ const processDirective = (
     arg = argIndex > 0 ? directive.slice(argIndex + 1) : undefined
   }
   if (dir) {
+    if (dir === bind && arg === 'ref') dir = ref
     applyDirective(el, dir, exp, ctx, arg, modifiers)
     el.removeAttribute(raw)
   } else if (import.meta.env.DEV) {
@@ -150,6 +161,7 @@ const applyDirective = (
   const cleanup = dir({
     el,
     get,
+    effect: ctx.effect,
     ctx,
     exp,
     arg,
