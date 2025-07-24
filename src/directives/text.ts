@@ -1,8 +1,8 @@
 import { isObject } from '@vue/shared'
 import { Directive } from '.'
 
-export const text: Directive<Text | Element> = ({ el, get, effect }) => {
-  effect(() => {
+export const text: Directive<Text | Element> = ({ el, get, ctx }) => {
+  ctx.effect(() => {
     el.textContent = toDisplayString(get())
   })
 }

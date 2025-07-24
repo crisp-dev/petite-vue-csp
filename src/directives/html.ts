@@ -1,7 +1,7 @@
 import { Directive } from '.'
 
-export const html: Directive = ({ el, get, effect }) => {
-  effect(() => {
+export const html: Directive = ({ el, get, ctx }) => {
+  ctx.effect(() => {
     el.innerHTML = get()
   })
 }
